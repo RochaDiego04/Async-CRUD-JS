@@ -37,26 +37,8 @@ Update - PUT
 Delete - DELETE
 */
 
-const listaClientes = () => {
-  const promise = new Promise((resolve, reject) => {
-    const http = new XMLHttpRequest();
-    http.open("GET", "http://localhost:3000/perfil"); //Abrir una petición al servidor
-
-    http.send(); // Enviar la petición al servidor
-
-    http.onload = () => { // Recibir respuesta del servidor para lectura de datos
-      const response = JSON.parse(http.response);
-      if(http.status >= 400) {
-        reject(response)
-      }
-      else {
-        resolve(response)
-      }
-    };
-  });
-
-  return promise;
-};
+const listaClientes = () => // Fetch utiliza GET por defecto
+    fetch("http://localhost:3000/perfil").then( respuesta => respuesta.json());
 
 listaClientes().then(data => {
     data.forEach((perfil) => {

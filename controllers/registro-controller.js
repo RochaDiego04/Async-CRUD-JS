@@ -1,3 +1,4 @@
+import { clientServices } from "../service/client-service.js";
 
 const cliente = {
     nombre: '',
@@ -52,7 +53,15 @@ function validarEmail(email) {
 
 
 function crearNuevoCliente(e) {
+    const {nombre, email} = cliente;
     e.preventDefault();
+    eliminarAlertas();
+
+    clientServices.crearCliente(nombre, email)
+    .then( respuesta => {
+        window.location.href = '/screens/registro_completado.html';
+    }).catch( err => `Hubo un error: ${err}`);
+
     resetFormulario();
 }
 

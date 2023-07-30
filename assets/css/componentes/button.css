@@ -29,3 +29,7 @@
 .simple-button--edit {
   color: var(--sucess-color);
 }
+
+.opacity-50 {
+  opacity: 0.5;
+}

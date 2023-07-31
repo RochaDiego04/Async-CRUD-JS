@@ -14,19 +14,28 @@ const formulario = document.querySelector('[data-form]');
 const url = new URL(window.location);
 const id = url.searchParams.get("id");
 
-const obtenerInformacion = () => {
+const obtenerInformacion = async () => {
     if (id === null) {
         window.location.href = "../screens/error.html";
     }
 
-    clientServices.detalleCliente(id).then( perfil => {
-        const {nombre, email} = perfil;
-        inputNombre.value = nombre;
-        inputEmail.value = email;
-        cliente.nombre = nombre;
-        cliente.email = email;
-        comprobarCliente();
-    });
+    try {
+        const perfil = await clientServices.detalleCliente(id);
+        if (perfil.nombre && perfil.email){
+            const {nombre, email} = perfil;
+            inputNombre.value = nombre;
+            inputEmail.value = email;
+            cliente.nombre = nombre;
+            cliente.email = email;
+            comprobarCliente();
+        }
+        else {
+            throw new Error();
+        }
+    } catch(error) {
+        console.log(`Error extrayendo datos del cliente con id ${id}`);
+        window.location.href = "/screens/error.html";
+    }
 }
 
 obtenerInformacion();
